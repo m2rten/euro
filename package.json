@@ -1,0 +1,26 @@
+{
+  "name": "euro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "csv-parser": "^2.3.1",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "formidable": "^1.2.1",
+    "mocha": "^6.2.0",
+    "sinon": "^7.4.2",
+    "sqlite": "^3.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC"
+}
