@@ -7,7 +7,7 @@ var { BankDataController } = require("./controllers/file/bankDataController")
 config = require("./config/config")
 
 router.get('/', function (req, res){
-    res.sendFile('C:\\Users\\marte\\OneDrive\\Documents\\code\\euro\\node\\index.html');
+    res.sendFile('index.html',{root:'.'});
 });
 
 router.get('/users', (req,res)=>{
