@@ -3,24 +3,13 @@ var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 var expect = chai.expect
 
-var rp = require ('../models/returnPromise')
 var users = require ('../models/users')
 var groups = require ('../models/groups')
 var userCtrl = require ('../controllers/user/userController')
 var assert = require ('assert')
-console.log(rp.simple())
-
 
 describe("trying stuff out", function (){
-  it ("tries if mocha is working", function() {
-    return true
-  })
-  it ("demonstrates the resolving of a Promise", function (){
-    return new Promise ((resolve, reject) => {
-      resolve ("Hello as promised")
 
-    } )
-  })
 
   it ("tests real user function from a Promise", function (done){
   userList =  users.getUsers()
@@ -30,7 +19,6 @@ describe("trying stuff out", function (){
    }
    )
    .catch(function(err){
-     console.log("Then failed")
      done(err)
    }
  )

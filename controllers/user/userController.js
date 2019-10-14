@@ -1,10 +1,10 @@
 'use strict'
-var UserModel = require ("../../models/users")
-var GroupModel = require ("../../models/groups")
+var { UserModel } = require ("../../models/users")
+var { GroupModel }= require ("../../models/groups")
 
 function UserController (){
-  this.userModel = new UserModel.UserModel()
-  this.groupModel = new GroupModel.GroupModel ()
+  this.userModel = new UserModel()
+  this.groupModel = new GroupModel ()
   this.getUsers = function (){
       return this.userModel.getUsers().then(success.bind(this))
     }

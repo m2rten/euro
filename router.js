@@ -2,7 +2,7 @@ var users = require ('./models/users');
 var userCtrl = require ('./controllers/user/userController');
 const express = require('express');
 var router = express.Router ();
-var bDCtrl = require("./controllers/file/bankDataController")
+var { BankDataController } = require("./controllers/file/bankDataController")
 
 config = require("./config/config")
 
@@ -17,10 +17,11 @@ router.get('/users', (req,res)=>{
 })
 
 router.post('/file', (req, res)=>{
-    var bankDataCtrl = new bDCtrl.bankData();
-    bankDataCtrl.handleCsv(req)
-    res.end("fsjoo")
-})
+    var bankData = new BankDataController();
+    bankData.handleCsv(req)
+    .then(result =>res.send(result))
+    .catch(error => res.send("ERROR: "+error))
+  })
 
 /*router.get('/groups/:user', (req,res)=>{
   groupCtrl.getUserGroups(req.params.user).then(function(groups){

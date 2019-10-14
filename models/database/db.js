@@ -26,10 +26,18 @@ db.runAsync = function (sql, params){
   var query = function(resolve, reject){
     this.run(sql, params, function(err){
       if (err){
-        reject(err)
+        if ((err.message).includes("SQLITE_CONSTRAINT: UNIQUE constraint failed")){
+          reject ("unique constraint")
+        }
+        else if ((err.message).includes("SQLITE_CONSTRAINT: NOT NULL constraint failed")){
+          reject ("null constraint")
+        }
+        else{
+          reject(err)
+        }
       }
       else{
-        resolve()
+        resolve("row inserted")
       }
     })
   }

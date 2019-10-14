@@ -5,7 +5,6 @@ var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 var expect = chai.expect ;
 var FS =  require('../trial/fooService')
-var rp = require ('../models/returnPromise')
 var users = require ('../models/users')
 var groups = require ('../models/groups')
 var UserCtrl = require ('../controllers/user/userController')
