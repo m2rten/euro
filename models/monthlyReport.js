@@ -46,7 +46,7 @@ var db = require("./database/db")
     })
    }
    this.getBankPeriodSum = function (expense_type,bank_or_cash){
-     var cmd = db.getAsync("select coalesce(sum(trans_sum),0) as trans_sum from transactions where date(trans_date) < ? and date(trans_date)> ? and expense_type = ? and bank_or_cash = ? ",[`${this.year}-${this.month}-${this.daysInMonth()}`,`${year}-${month}-01`,expense_type,bank_or_cash])
+     var cmd = db.getAsync("select coalesce(sum(trans_sum),0) as trans_sum from transactions where date(trans_date) < ? and date(trans_date)> ? and expense_type = ? and bank_or_cash = ? and trans_sum < 0",[`${this.year}-${this.month}-${this.daysInMonth()}`,`${year}-${month}-01`,expense_type,bank_or_cash])
      return cmd.then(result=>{
        return result[0].trans_sum
      })
