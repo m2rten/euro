@@ -3,7 +3,7 @@ var userCtrl = require ('./controllers/user/userController');
 const express = require('express');
 var router = express.Router ();
 var { BankDataController } = require("./controllers/file/bankDataController")
-
+var { monthlyReportController } =  require("./controllers/report/monthlyReportController")
 config = require("./config/config")
 
 router.get('/', function (req, res){
@@ -13,6 +13,13 @@ router.get('/', function (req, res){
 router.get('/users', (req,res)=>{
   userCtrl.getUsers().then(function(users){
     res.json(users)
+  })
+})
+
+router.get('/report/:year/:month', (req,res)=>{
+var monthlyReportCtrl = new monthlyReportController(req.params.month, req.params.year)
+  monthlyReportCtrl.getMonthlyReport().then(function(report){
+    res.json(report)
   })
 })
 

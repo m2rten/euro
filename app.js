@@ -7,7 +7,6 @@ const port = config.server.port
 app.use('/', router)
 
 app.listen(port, () =>{
-   Object.keys(config).forEach(key=>checker(key, config[key], []))
    console.log(`Eurp app listening on port ${port}!`)
  })
 

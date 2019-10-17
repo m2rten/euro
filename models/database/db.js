@@ -9,9 +9,9 @@ var db = new sqlite3.Database (config.db.location, sqlite3.OPEN_READWRITE, (err)
     console.log("conneted to db: ", config.db.location )
 })
 
-db.getAsync = function(sql) {
+db.getAsync = function(sql, params) {
   var query =  function (resolve, reject){
-  this.all((sql), function (err, rows){
+  this.all(sql, params, function (err, rows){
     if (err)
       reject (err);
     else {

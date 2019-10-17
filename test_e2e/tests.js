@@ -13,7 +13,7 @@ var testDataFolder = "C:\\Users\\marte\\OneDrive\\Documents\\code\\euro\\node\\t
 //incorrect data type
 //missing cell
 
-describe("e2e tests tests", function(){
+describe("We are running data insertion e2e tests", function(){
   var getFileName;
   var bankData ;
   var parse;

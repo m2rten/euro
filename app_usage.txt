@@ -1,0 +1,13 @@
+Swedbanki kuu sisestamine
+	Upload csv
+	Juba sisestatud väljad ignoreeritakse
+
+Kuu kulude sisetamine
+  Lisatakse aasta põhiselt - üks kord aastas
+  Kuu aruandesse ilmub läbi päringu
+
+
+Kuu kulude vaatamine
+
+
+Fondid kulumise vaatamine
