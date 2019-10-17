@@ -22,11 +22,12 @@ this.response = {expenses:{planned:{total:0},card:0,cash:0,everyday:{daily:{spen
    return  Promise.all([this.mrp.getCardValue("start","sula"),this.mrp.getCardValue("end","sula"), this.mrp.getCashRefundsSum()])
  })
  .then(values=>{
-   this.response.expenses.cash =values[2] +values[1] - values[0]
+   this.response.expenses.cash =values[1] - values[0]
+   this.response.expenses.refund = value[2]
    return this.mrp.getBankPeriodSum("everyday")
  })
  .then(value=>{
-   this.response.expenses.everyday.total = Math.round(value) + this.response.expenses.cash + this.response.expenses.card
+   this.response.expenses.everyday.total = Math.round(value) + this.response.expenses.cash + this.response.expenses.card + this.response.expenses.refund
    this.response.expenses.everyday.daily.planned = Math.round(this.response.expenses.planned.everyday/this.daysInMonth())
    let total = this.response.expenses.everyday.total
    let everyday = this.response.expenses.planned.everyday
