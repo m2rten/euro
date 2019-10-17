@@ -19,12 +19,12 @@ this.response = {expenses:{planned:{total:0},card:0,cash:0,everyday:{daily:{spen
  })
  .then(values=>{
    this.response.expenses.card = values[1]-values[0]
-   return  Promise.all([this.mrp.getCardValue("start","sula"),this.mrp.getCardValue("end","sula"), this.mrp.getCashRefundsSum()])
+   return  Promise.all([this.mrp.getCardValue("start","sula"),this.mrp.getCardValue("end","sula"), this.mrp.getCashRefundsSum("cash"), this.mrp.getCashRefundsSum("cashRefund")])
  })
  .then(values=>{
-   this.response.expenses.cash =values[1] - values[0]
-   this.response.expenses.refund = values[2]
-   return this.mrp.getBankPeriodSum("everyday")
+   this.response.expenses.cash =values[1] - values[0] -values[2]
+   this.response.expenses.refund = values[3]
+   return this.mrp.getBankPeriodSum("everyday","bank")
  })
  .then(value=>{
    this.response.expenses.everyday.total = Math.round(value) + this.response.expenses.cash + this.response.expenses.card + this.response.expenses.refund
