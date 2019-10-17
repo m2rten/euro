@@ -7,6 +7,19 @@ Kuu kulude sisetamine
   Kuu aruandesse ilmub läbi päringu
 
 
+Krediit kaardi andmete sisestamine
+insert into month_start_end values (10,2019,"start","kaart",459);
+insert into month_start_end values (10,2019,"end","kaart",464);
+
+
+Sula admnete sisetamine
+insert into month_start_end values (10,2019,"start","sula",150);
+insert into month_start_end values (10,2019,"end","sula",290);
+
+cashrefund
+- rehvid 55
+- lydia 97
+insert into transactions (trans_date, partner_name, trans_sum, expense_type, bank_or_cash) values ("2019-10-01", "tireman", 55,yearly,cashRefund)
 Kuu kulude vaatamine
 
 

@@ -22,7 +22,7 @@ this.response = {expenses:{planned:{total:0},card:0,cash:0,everyday:{daily:{spen
    return  Promise.all([this.mrp.getCardValue("start","sula"),this.mrp.getCardValue("end","sula"), this.mrp.getCashRefundsSum()])
  })
  .then(values=>{
-   this.response.expenses.cash =values[2] - values[1]-values[0]
+   this.response.expenses.cash =values[2] +values[0] - values[1]
    return this.mrp.getBankPeriodSum("everyday")
  })
  .then(value=>{
