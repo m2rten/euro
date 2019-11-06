@@ -72,7 +72,7 @@ function addExpenseType(row){
   {id:"refNum",value:"63530474088",expenseType:"elekter"},
   {id:"refNum",value:"101625083",expenseType:"mobiil"},
   {id:"refNum",value:"824367",expenseType:"vesi"},
-  {id:"refNum",value:"63530474088",expenseType:"prygi"},
+  {id:"refNum",value:"10306804",expenseType:"prygi"},
   {id:"transComment",value:"Laenu põhiosa: 05-099958-EL",expenseType:"sopakas"},
   {id:"transComment",value:"Swedbank Varakindlustuse makse: 05-099958-EL",expenseType:"sopakas"},
   {id:"transComment",value:"Kogunenud intress: 05-099958-EL",expenseType:"sopakas"}

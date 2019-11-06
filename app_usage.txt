@@ -1,3 +1,20 @@
+TODO
+- viimane versioon live
+- andmebaaas one drive
+- Korralik branch giti
+- Deployment instruction
+
+-------------------------------------------------------------
+- Interface month start loomiseks ja muutmiseks POST
+- Interface cashRefundi sisestamiseks
+---------------------------------------------------------------
+- Monthly report paremaks
+---------------------------------------------------------------
+- Yearly report teha
+----------------------------------------------------------------
+
+Veebi interface
+
 Swedbanki kuu sisestamine
 	Upload csv
 	Juba sisestatud väljad ignoreeritakse
@@ -20,9 +37,10 @@ Väljaminevat cashi ei pane kirja, ainult sisse tulevaat
 cashrefund
 - rehvid 55
 - lydia 97
-insert into transactions (trans_date, partner_name, trans_sum, expense_type, bank_or_cash) values ("2019-10-01", "lydia", 97,yearly,cashRefund);
-insert into transactions (trans_date, partner_name, trans_sum, expense_type, bank_or_cash) values ("2019-10-01", "ulvi", 300,"ulvi",cashRefund);
+insert into transactions (trans_date, partner_name, trans_sum, expense_type, bank_or_cash) values ("2019-10-01", "lydia", 97,"vaba","cashRefund");
+insert into transactions (trans_date, partner_name, trans_sum, expense_type, bank_or_cash) values ("2019-10-01", "ulvi", 300,"ulvi","cashRefund");
 insert into transactions (trans_date, partner_name, trans_sum, expense_type, bank_or_cash) values ("2019-10-01", "koristamine", 65,"koristamine",cashRefund);
+insert into transactions (trans_date, partner_name, trans_sum, expense_type, bank_or_cash) values ("2019-10-01", "mustaka yyr", 40,"incoming cash",cash);
 
 Kuu kulude vaatamine
 

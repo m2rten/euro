@@ -9,6 +9,9 @@ config = require("./config/config")
 router.get('/', function (req, res){
     res.sendFile('index.html',{root:'.'});
 });
+router.get('/usage', function (req, res){
+    res.sendFile('app_usage.txt',{root:'.'});
+});
 
 router.get('/users', (req,res)=>{
   userCtrl.getUsers().then(function(users){
