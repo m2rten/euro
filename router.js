@@ -12,6 +12,13 @@ router.get('/', function (req, res){
 router.get('/usage', function (req, res){
     res.sendFile('app_usage.txt',{root:'.'});
 });
+router.get('/monthstart', function (req, res){
+    res.sendFile('monthstart.html',{root:'.'});
+});
+router.post('/monthstart', (req, res)=>{
+  console.log(req.query)
+    res.send(req.toString());
+});
 
 router.get('/users', (req,res)=>{
   userCtrl.getUsers().then(function(users){
