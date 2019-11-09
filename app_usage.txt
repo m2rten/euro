@@ -1,15 +1,8 @@
 TODO
-- viimane versioon live
-- andmebaaas one drive
-- Korralik branch giti
-- Deployment instruction
-
--------------------------------------------------------------
-- Interface month start loomiseks ja muutmiseks POST
 - Interface cashRefundi sisestamiseks
----------------------------------------------------------------
 - Monthly report paremaks
----------------------------------------------------------------
+- transactionsite lsy html tabeis
+- event_type muutmine läbi interfacei
 - Yearly report teha
 ----------------------------------------------------------------
 

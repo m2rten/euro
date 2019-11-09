@@ -1,5 +1,6 @@
 var users = require ('./models/users');
 var userCtrl = require ('./controllers/user/userController');
+var { monthStartController }= require ('./controllers/monthstart/monthStartController')
 const express = require('express');
 var router = express.Router ();
 var { BankDataController } = require("./controllers/file/bankDataController")
@@ -16,8 +17,10 @@ router.get('/monthstart', function (req, res){
     res.sendFile('monthstart.html',{root:'.'});
 });
 router.post('/monthstart', (req, res)=>{
-  console.log(req.query)
-    res.send(req.toString());
+  var mCtrl = new monthStartController(req)
+     mCtrl.getParams().then(function(result){
+           res.send(result);
+     })
 });
 
 router.get('/users', (req,res)=>{

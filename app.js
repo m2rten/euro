@@ -3,6 +3,8 @@ const router = require ('./router')
 const app = express()
 var config = require ("./config/config")
 const port = config.server.port
+var bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use('/', router)
 
