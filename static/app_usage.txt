@@ -1,8 +1,7 @@
 TODO
-- Interface cashRefundi sisestamiseks
+- transactionsite list html tabis
+- event_type muutmine läbi interfacei, transactions tabeli all
 - Monthly report paremaks
-- transactionsite lsy html tabeis
-- event_type muutmine läbi interfacei
 - Yearly report teha
 ----------------------------------------------------------------
 

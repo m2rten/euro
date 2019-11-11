@@ -1,6 +1,7 @@
 var users = require ('./models/users');
 var userCtrl = require ('./controllers/user/userController');
-var { monthStartController }= require ('./controllers/monthstart/monthStartController')
+var { monthStartController } = require ('./controllers/monthstart/monthStartController')
+var {  cashRefundController } = require ('./controllers/cashRefund/cashRefundController')
 const express = require('express');
 var router = express.Router ();
 var { BankDataController } = require("./controllers/file/bankDataController")
@@ -10,12 +11,26 @@ config = require("./config/config")
 router.get('/', function (req, res){
     res.sendFile('index.html',{root:'.'});
 });
+router.get('/insertCsv', function (req, res){
+    res.sendFile('insert_csv.html',{root:'./static'});
+});
 router.get('/usage', function (req, res){
-    res.sendFile('app_usage.txt',{root:'.'});
+    res.sendFile('app_usage.txt',{root:'./static'});
 });
-router.get('/monthstart', function (req, res){
-    res.sendFile('monthstart.html',{root:'.'});
+router.get('/monthStart', function (req, res){
+    res.sendFile('monthstart.html',{root:'./static'});
 });
+router.get('/insertCashRefund', function (req, res){
+    res.sendFile('cash_refund.html',{root:'./static'});
+});
+
+router.post('/insertCashRefund', function(req, res){
+  var cashRefundCtrl = new cashRefundController(req)
+  cashRefundCtrl.insertRefund().then(function(result){
+    res.send(result)
+  })
+})
+
 router.post('/monthstart', (req, res)=>{
   var mCtrl = new monthStartController(req)
      mCtrl.getParams().then(function(result){
