@@ -6,6 +6,7 @@ const express = require('express');
 var router = express.Router ();
 var { BankDataController } = require("./controllers/file/bankDataController")
 var { monthlyReportController } =  require("./controllers/report/monthlyReportController")
+var { transactionsReportController } = require ("./controllers/transactions/transactionsReportController")
 config = require("./config/config")
 
 router.get('/', function (req, res){
@@ -29,6 +30,25 @@ router.post('/insertCashRefund', function(req, res){
   cashRefundCtrl.insertRefund().then(function(result){
     res.send(result)
   })
+})
+
+router.post('/transactions', function (req, res){
+  let trCtrl = new transactionsReportController()
+  trCtrl.updateTransaction(req.body.value, req.body.field, req.body.row_id)
+  .then(function(result){
+    res.sendFile('transactions.html',{root:'./static'});
+  })
+})
+
+router.get('/transactions', function (req, res){
+    res.sendFile('transactions.html',{root:'./static'});
+});
+router.get('/transactionsList/:year/:month', function(req, res){
+let trCtrl = new transactionsReportController (req.params.month, req.params.year)
+trCtrl.getTransactions()
+.then(function(result){
+  res.send(result)
+})
 })
 
 router.post('/monthstart', (req, res)=>{
