@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>
+  <form action="/transactions" method="post">
+    Update expense type <br>
+    <label> row_id</label>
+   <input type="text" name="row_id">
+   <input type="text" name="field" value="expense_type" hidden=true>
+   <label>Value</label>
+   <input type="text" name="value">
+   <input type="submit" value="submit">
+  </form>
+</p>
+<p>
+  <form action="/transactions" method="post">
+    Update bank_or_cash type <br>
+    <label> row_id</label>
+   <input type="text" name="row_id">
+    <input type="text" name="field" value="bank_or_cash" hidden=true>
+   <label>Value</label>
+   <input type="text" name="value">
+   <input type="submit" value="submit">
+  </form>
+</p>
+
+<p id="demo"></p>
+
+<script>
+console.log(window.location);
+var obj, dbParam, xmlhttp, myObj, x, txt = "";
+dbParam = JSON.stringify(obj);
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    myObj = JSON.parse(this.responseText);
+    txt += "<table border='1'>"
+    for (x in myObj) {
+      txt += "<tr><td>" + myObj[x].row_id + "</td>";
+      txt += "<td>" + myObj[x].trans_date + "</td>" ;
+      txt += "<td>" + myObj[x].partner_name + "</td>" ;
+      txt += "<td>" + myObj[x].expense_type + "</td>" ;
+      txt += "<td>" + myObj[x].bank_or_cash + "</td></tr>" ;
+    }
+    txt += "</table>"
+    document.getElementById("demo").innerHTML = txt;
+  }
+};
+xmlhttp.open("GET", "/transactionsList/2019/10", true);
+xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xmlhttp.send();
+</script>
