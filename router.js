@@ -7,7 +7,16 @@ var router = express.Router ();
 var { BankDataController } = require("./controllers/file/bankDataController")
 var { monthlyReportController } =  require("./controllers/report/monthlyReportController")
 var { transactionsReportController } = require ("./controllers/transactions/transactionsReportController")
+var { yearlyReportController } = require ("./controllers/report/yearlyReportController")
 config = require("./config/config")
+
+router.get('/report/:year', function(req, res){
+  let yrCtrl = new yearlyReportController(req.params.year)
+  yrCtrl.getYearlyReport()
+  .then(function(results){
+    res.send(results)
+  })
+})
 
 router.get('/', function (req, res){
     res.sendFile('index.html',{root:'.'});
