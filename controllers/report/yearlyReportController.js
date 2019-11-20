@@ -12,7 +12,7 @@ function yearlyReportController (year){
     var yearlyTransactionsPromise = yrm.getYearlyTransactions()
     var regularExpensesPromise = mrm.getPlanned()
 
-    var daysInPeriod = 45
+    var daysInPeriod = getDaysInPeriod(this.year)
 
     return Promise.all([typesPromise,yearlyTransactionsPromise,regularExpensesPromise])
     .then(function(results){
@@ -33,14 +33,30 @@ function yearlyReportController (year){
 
       })
       transactions.forEach(trans=>{
-        report[trans["expense_type"]].spent +=trans["trans_sum"]
+        if (trans.expense_type==="everyday" && trans.trans_sum >0){
+          return
+        }
+        let mark = (trans.bank_or_cash==="cashRefund" ? 1:-1)
+        report[trans["expense_type"]].spent +=trans["trans_sum"]*mark
         report[trans["expense_type"]].spent = Math.round(report[trans["expense_type"]].spent,0 )
       })
+      report.everyday = "NEEDS DIFFERENT CALCULATION"
       return report
     })
   }
 }
+var getDaysInPeriod = function (year){
+  var dayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+  let now = new Date()
+  let cryear = now.getFullYear()
+  let crmonth = now.getMonth()
+  let crdays = now.getDate()
+  let subtract = (year ==="2019"?273:0)
+  let fullyear = 0
+  let response = (year<cryear ? (365 + fullyear)  :(dayCount[crmonth] + crdays - subtract + fullyear))
+  return response
 
+}
 module.exports = {
   yearlyReportController
 }
