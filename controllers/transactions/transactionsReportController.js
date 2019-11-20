@@ -2,10 +2,13 @@
 var { transactions } = require("../../models/transactions")
 
 function transactionsReportController (month, year){
-this.month = month
-this.year = year
+
+  let now = new Date()
+  this.month = (month === undefined ?  now.getMonth() +1 :month)
+  this.year = (year === undefined ? this.year = now.getFullYear() : year)
+
 this.getTransactions = function (){
-  let transactionsModel = new transactions (month, year)
+  let transactionsModel = new transactions (this.month, this.year)
   return transactionsModel.getTransactions()
   .then (function(result){
     return result

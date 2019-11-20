@@ -52,6 +52,13 @@ router.post('/transactions', function (req, res){
 router.get('/transactions', function (req, res){
     res.sendFile('transactions.html',{root:'./static'});
 });
+router.get('/transactionsList', function(req, res){
+let trCtrl = new transactionsReportController (req.params.month, req.params.year)
+trCtrl.getTransactions()
+.then(function(result){
+  res.send(result)
+})
+})
 router.get('/transactionsList/:year/:month', function(req, res){
 let trCtrl = new transactionsReportController (req.params.month, req.params.year)
 trCtrl.getTransactions()
