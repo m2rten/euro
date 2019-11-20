@@ -52,7 +52,7 @@ var getDaysInPeriod = function (year){
   let crmonth = now.getMonth()
   let crdays = now.getDate()
   let subtract = (year ==="2019"?273:0)
-  let fullyear = 0
+  let fullyear = (crmonth < 2 || year%4!=0) ? 0 : 1
   let response = (year<cryear ? (365 + fullyear)  :(dayCount[crmonth] + crdays - subtract + fullyear))
   return response
 
