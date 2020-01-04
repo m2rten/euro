@@ -4,8 +4,8 @@ var db  = require ("./database/db")
 function transactions(month, year){
 this.month = month;
 this.year = year;
-if (this.month.length === 1){
-  this.month = "0"+this.month;
+if (this.month.toString().length === 1){
+  this.month = "0"+this.month.toString();
 }
 
 this.getTransactions = function(){

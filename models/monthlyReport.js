@@ -3,6 +3,9 @@ var db = require("./database/db")
  function monthlyReportModel (month, year){
    this.month = month
    this.year = year
+   if (this.month.toString().length === 1){
+     this.month = "0"+this.month.toString();
+   }
    this.getPlanned = function(){
      var planned = db.getAsync("select * from regular where expense_year = ? ", this.year)
      return planned.then(rows=>{
@@ -24,15 +27,15 @@ var db = require("./database/db")
    this.daysInMonth = function(){
     var feb = this.year % 4 == 0 ? 29 : 28
     let daysInMonthMap ={
-      "1":31,
-      "2":feb,
-      "3":31,
-      "4":30,
-      "5":31,
-      "6":30,
-      "7":31,
-      "8":31,
-      "9":30,
+      "01":31,
+      "02":feb,
+      "03":31,
+      "04":30,
+      "05":31,
+      "06":30,
+      "07":31,
+      "08":31,
+      "09":30,
       "10":31,
       "11":30,
       "12":31
