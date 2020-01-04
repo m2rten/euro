@@ -68,6 +68,7 @@ function BankDataController (){
 function addExpenseType(row){
   const expenseTypeMappings =   [
   {id:"refNum",value:"246453",expenseType:"sopakas"},
+  {id:"transComment",value:"Krediidi tagasimakse",expenseType:"krediit"},
   {id:"refNum",value:"25362500003",expenseType:"sopakas"},
   {id:"refNum",value:"63530474088",expenseType:"elekter"},
   {id:"refNum",value:"101625083",expenseType:"mobiil"},
