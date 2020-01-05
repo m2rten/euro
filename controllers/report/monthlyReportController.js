@@ -9,6 +9,10 @@ if (this.month.toString().length === 1){
   this.month = "0"+this.month.toString();
 }
 
+var monthlySum = this.monthlySum;
+var getToday = this.getToday;
+var daysInMonth = this.daysInMonth ;
+
 this.getMonthlyReport = function (){
   var promises = [];
 
@@ -20,7 +24,7 @@ this.getMonthlyReport = function (){
   promises.push(this.mrp.getBankPeriodSum("everyday","bank"));
   return Promise.all(promises)
   .then(function(values){
-    let planned = values[0].map(this.monthlySum);
+    let planned = values[0].map(monthlySum);
     let plannedTotal = planned.reduce((a,b)=>{return (a+b)})
     let cashStart = values[1];
     let cashEnd = values[2];
@@ -30,9 +34,9 @@ this.getMonthlyReport = function (){
     let everyday = values [5];
     let totalSpent = cashDiff + everyday - incomingCash - cashRefund
     let daily = {};
-    daily.spent = Math.round(totalSpent/this.getToday())
-    daily.total.planned = Math.round(planned.everyday/this.daysInMonth());
-    daily.total.left = Math.round((planned.everyday - totalSpent)/(this.daysInMonth()-this.getToday()+1))
+    daily.spent = Math.round(totalSpent/getToday())
+    daily.total.planned = Math.round(planned.everyday/daysInMonth());
+    daily.total.left = Math.round((planned.everyday - totalSpent)/(daysInMonth()-getToday()+1))
     monthlyTotalSpent  = plannedTotal + totalSpent - planned.everyday;
     let response ={
       "planned":planned,
@@ -49,7 +53,7 @@ this.getMonthlyReport = function (){
    let b = now.getFullYear()
    return (this.month == (now.getMonth() + 1) && this.year == now.getFullYear()) ? now.getDate() : this.daysInMonth()
  }
- this.monthlySum = function(sum){
+ var monthlySum function(sum){
    return Math.round(sum*this.daysInMonth())
  }
  this.daysInMonth = function(){
