@@ -9,9 +9,9 @@ if (this.month.toString().length === 1){
   this.month = "0"+this.month.toString();
 }
 
-var monthlySum = this.monthlySum;
-var getToday = this.getToday;
-var daysInMonth = this.daysInMonth ;
+var monthlySum = this.monthlySum();
+var getToday = this.getToday();
+var daysInMonth = this.daysInMonth() ;
 
 this.getMonthlyReport = function (){
   var promises = [];
@@ -24,7 +24,7 @@ this.getMonthlyReport = function (){
   promises.push(this.mrp.getBankPeriodSum("everyday","bank"));
   return Promise.all(promises)
   .then(function(values){
-    let planned = values[0].map(monthlySum());
+    let planned = values[0].map(monthlySum);
     let plannedTotal = planned.reduce((a,b)=>{return (a+b)})
     let cashStart = values[1];
     let cashEnd = values[2];
@@ -48,31 +48,38 @@ this.getMonthlyReport = function (){
 }
 
  this.getToday = function (){
-   let now = new Date()
-   let a = now.getMonth() +1
-   let b = now.getFullYear()
-   return (this.month == (now.getMonth() + 1) && this.year == now.getFullYear()) ? now.getDate() : this.daysInMonth()
+   return function (){
+     let now = new Date()
+     let a = now.getMonth() +1
+     let b = now.getFullYear()
+     return (this.month == (now.getMonth() + 1) && this.year == now.getFullYear()) ? now.getDate() : this.daysInMonth()
+   }
  }
- this.monthlySum = function(sum){
-   return Math.round(sum*this.daysInMonth())
+
+ this.monthlySum = function (){
+ return  function(sum){
+     return Math.round(sum*this.daysInMonth())
+   }
  }
- this.daysInMonth = function(){
-  var feb = this.year % 4 == 0 ? 29 : 28
-  let daysInMonthMap ={
-    "01":31,
-    "02":feb,
-    "03":31,
-    "04":30,
-    "05":31,
-    "06":30,
-    "07":31,
-    "08":31,
-    "09":30,
-    "10":31,
-    "11":30,
-    "12":31
-  }
-  return daysInMonthMap[this.month]
+ this.daysInMonth = function (){
+   return function(){
+    var feb = this.year % 4 == 0 ? 29 : 28
+    let daysInMonthMap ={
+      "01":31,
+      "02":feb,
+      "03":31,
+      "04":30,
+      "05":31,
+      "06":30,
+      "07":31,
+      "08":31,
+      "09":30,
+      "10":31,
+      "11":30,
+      "12":31
+    }
+    return daysInMonthMap[this.month]
+   }
  }
 }
 module.exports = {
