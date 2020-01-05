@@ -9,7 +9,7 @@ if (this.month.toString().length === 1){
   this.month = "0"+this.month.toString();
 }
 
-this.getMonthlyReport(){
+this.getMonthlyReport = function (){
   var promises = [];
 
   promises.push(this.mrp.getPlanned());
