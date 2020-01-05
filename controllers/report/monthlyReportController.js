@@ -53,7 +53,7 @@ this.getMonthlyReport = function (){
    let b = now.getFullYear()
    return (this.month == (now.getMonth() + 1) && this.year == now.getFullYear()) ? now.getDate() : this.daysInMonth()
  }
- var monthlySum function(sum){
+ this.monthlySum = function(sum){
    return Math.round(sum*this.daysInMonth())
  }
  this.daysInMonth = function(){
