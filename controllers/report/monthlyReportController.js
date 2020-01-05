@@ -17,7 +17,7 @@ promises.push(this.mrp.getCardValue("end","sula"));
 promises.push(this.mrp.getCashRefundsSum("cash"));
 promises.push(this.mrp.getCashRefundsSum("cashRefund"));
 promises.push(this.mrp.getBankPeriodSum("everyday","bank"));
-Promise.allSettled(promises)
+Promise.all(promises)
 .then(function(values){
   let planned = values[0].map(this.monthlySum);
   let plannedTotal = planned.reduce((a,b)=>{return (a+b)})
