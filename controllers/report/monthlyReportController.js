@@ -9,38 +9,39 @@ if (this.month.toString().length === 1){
   this.month = "0"+this.month.toString();
 }
 
-var promises = [];
+this.getMonthlyReport(){
+  var promises = [];
 
-promises.push(this.mrp.getPlanned());
-promises.push(this.mrp.getCardValue("start","sula"));
-promises.push(this.mrp.getCardValue("end","sula"));
-promises.push(this.mrp.getCashRefundsSum("cash"));
-promises.push(this.mrp.getCashRefundsSum("cashRefund"));
-promises.push(this.mrp.getBankPeriodSum("everyday","bank"));
-Promise.all(promises)
-.then(function(values){
-  let planned = values[0].map(this.monthlySum);
-  let plannedTotal = planned.reduce((a,b)=>{return (a+b)})
-  let cashStart = values[1];
-  let cashEnd = values[2];
-  let cashDiff = cashEnd - cashStart;
-  let incomingCash = values[3];
-  let cashRefund = values[4];
-  let everyday = values [5];
-  let totalSpent = cashDiff + everyday - incomingCash - cashRefund
-  let daily = {};
-  daily.spent = Math.round(totalSpent/this.getToday())
-  daily.total.planned = Math.round(planned.everyday/this.daysInMonth());
-  daily.total.left = Math.round((planned.everyday - totalSpent)/(this.daysInMonth()-this.getToday()+1))
-  monthlyTotalSpent  = plannedTotal + totalSpent - planned.everyday;
-  let response ={
-    "planned":planned,
-    "plannedTotal":plannedTotal,
-    "cashStart":cashStart,
-  }
-  return response
-})
-
+  promises.push(this.mrp.getPlanned());
+  promises.push(this.mrp.getCardValue("start","sula"));
+  promises.push(this.mrp.getCardValue("end","sula"));
+  promises.push(this.mrp.getCashRefundsSum("cash"));
+  promises.push(this.mrp.getCashRefundsSum("cashRefund"));
+  promises.push(this.mrp.getBankPeriodSum("everyday","bank"));
+  return Promise.all(promises)
+  .then(function(values){
+    let planned = values[0].map(this.monthlySum);
+    let plannedTotal = planned.reduce((a,b)=>{return (a+b)})
+    let cashStart = values[1];
+    let cashEnd = values[2];
+    let cashDiff = cashEnd - cashStart;
+    let incomingCash = values[3];
+    let cashRefund = values[4];
+    let everyday = values [5];
+    let totalSpent = cashDiff + everyday - incomingCash - cashRefund
+    let daily = {};
+    daily.spent = Math.round(totalSpent/this.getToday())
+    daily.total.planned = Math.round(planned.everyday/this.daysInMonth());
+    daily.total.left = Math.round((planned.everyday - totalSpent)/(this.daysInMonth()-this.getToday()+1))
+    monthlyTotalSpent  = plannedTotal + totalSpent - planned.everyday;
+    let response ={
+      "planned":planned,
+      "plannedTotal":plannedTotal,
+      "cashStart":cashStart,
+    }
+    return response
+  })
+}
 
  this.getToday = function (){
    let now = new Date()
