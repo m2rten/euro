@@ -24,7 +24,7 @@ this.getMonthlyReport = function (){
   promises.push(this.mrp.getBankPeriodSum("everyday","bank"));
   return Promise.all(promises)
   .then(function(values){
-    let planned = values[0].map(monthlySum);
+    let planned = values[0].map(monthlySum());
     let plannedTotal = planned.reduce((a,b)=>{return (a+b)})
     let cashStart = values[1];
     let cashEnd = values[2];
