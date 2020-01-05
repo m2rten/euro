@@ -8,36 +8,39 @@ this.year = year
 if (this.month.toString().length === 1){
   this.month = "0"+this.month.toString();
 }
-this.response = {expenses:{planned:{total:0},card:0,cash:0,everyday:{daily:{spent:0,left:0,planned:0},total:0}}}
- this.getMonthlyReport = function (){
-   return this.mrp.getPlanned()
-   .then(results =>{
-     results.forEach(result=>{
-      this.response.expenses.planned[result.expense_type]=this.monthlySum(result.expense_daily_sum)
-      this.response.expenses.planned.total += this.monthlySum(result.expense_daily_sum)
-         })
- })
- .then(()=>{
-   return Promise.all([this.mrp.getCardValue("start", "kaart"), this.mrp.getCardValue("end","kaart")])
- })
- .then(values=>{
-   return  Promise.all([this.mrp.getCardValue("start","sula"),this.mrp.getCardValue("end","sula"), this.mrp.getCashRefundsSum("cash"), this.mrp.getCashRefundsSum("cashRefund")])
- })
- .then(values=>{
-   this.response.expenses.cash =values[1] - values[0] -values[2]
-   this.response.expenses.refund = values[3]
-   return this.mrp.getBankPeriodSum("everyday","bank")
- })
- .then(value=>{
-   this.response.expenses.everyday.total = Math.round(value) + this.response.expenses.cash  + this.response.expenses.refund
-   this.response.expenses.everyday.daily.planned = Math.round(this.response.expenses.planned.everyday/this.daysInMonth())
-   let total = this.response.expenses.everyday.total
-   let everyday = this.response.expenses.planned.everyday
-   this.response.expenses.everyday.daily.spent = Math.round(total/this.getToday())
-   this.response.expenses.everyday.daily.left = Math.round((everyday + total)/(this.daysInMonth()-this.getToday()+1))
-   return this.response;
- })
-}
+
+var promises = [];
+
+promises.push(this.mrp.getPlanned());
+promises.push(this.mrp.getCardValue("start","sula"));
+promises.push(this.mrp.getCardValue("end","sula"));
+promises.push(this.mrp.getCashRefundsSum("cash"));
+promises.push(this.mrp.getCashRefundsSum("cashRefund"));
+promises.push(this.mrp.getBankPeriodSum("everyday","bank"));
+Promise.allSettled(promises)
+.then(function(values){
+  let planned = values[0].map(this.monthlySum);
+  let plannedTotal = planned.reduce((a,b)=>{return (a+b)})
+  let cashStart = values[1];
+  let cashEnd = values[2];
+  let cashDiff = cashEnd - cashStart;
+  let incomingCash = values[3];
+  let cashRefund = values[4];
+  let everyday = values [5];
+  let totalSpent = cashDiff + everyday - incomingCash - cashRefund
+  let daily = {};
+  daily.spent = Math.round(totalSpent/this.getToday())
+  daily.total.planned = Math.round(planned.everyday/this.daysInMonth());
+  daily.total.left = Math.round((planned.everyday - totalSpent)/(this.daysInMonth()-this.getToday()+1))
+  monthlyTotalSpent  = plannedTotal + totalSpent - planned.everyday;
+  let response ={
+    "planned":planned,
+    "plannedTotal":plannedTotal,
+    "cashStart":cashStart,
+  }
+  return response
+})
+
 
  this.getToday = function (){
    let now = new Date()
@@ -67,8 +70,6 @@ this.response = {expenses:{planned:{total:0},card:0,cash:0,everyday:{daily:{spen
   return daysInMonthMap[this.month]
  }
 }
-
-
 module.exports = {
   monthlyReportController
 }
