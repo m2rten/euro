@@ -5,6 +5,9 @@ function monthlyReportController(month, year){
 this.mrp = new monthlyReportModel (month, year)
 this.month = month
 this.year = year
+if (this.month.toString().length === 1){
+  this.month = "0"+this.month.toString();
+}
 this.response = {expenses:{planned:{total:0},card:0,cash:0,everyday:{daily:{spent:0,left:0,planned:0},total:0}}}
  this.getMonthlyReport = function (){
    return this.mrp.getPlanned()
@@ -48,15 +51,15 @@ this.response = {expenses:{planned:{total:0},card:0,cash:0,everyday:{daily:{spen
  this.daysInMonth = function(){
   var feb = this.year % 4 == 0 ? 29 : 28
   let daysInMonthMap ={
-    "1":31,
-    "2":feb,
-    "3":31,
-    "4":30,
-    "5":31,
-    "6":30,
-    "7":31,
-    "8":31,
-    "9":30,
+    "01":31,
+    "02":feb,
+    "03":31,
+    "04":30,
+    "05":31,
+    "06":30,
+    "07":31,
+    "08":31,
+    "09":30,
     "10":31,
     "11":30,
     "12":31
