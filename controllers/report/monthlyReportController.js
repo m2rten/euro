@@ -1,17 +1,18 @@
 'use strict' ;
 var { monthlyReportModel } = require("../../models/monthlyReport")
+var utils = require ("../../helpers/utils");
 
 function monthlyReportController(month, year){
 this.mrp = new monthlyReportModel (month, year)
 this.month = month
 this.year = year
+
 if (this.month.toString().length === 1){
   this.month = "0"+this.month.toString();
 }
 
-var monthlySum = this.monthlySum();
-var getToday = this.getToday();
-var daysInMonth = this.daysInMonth() ;
+var getToday = utils.getToday.bind(this);
+var daysInMonth = utils.daysInMonth.bind(this);
 
 this.getMonthlyReport = function (){
   var promises = [];
@@ -24,63 +25,40 @@ this.getMonthlyReport = function (){
   promises.push(this.mrp.getBankPeriodSum("everyday","bank"));
   return Promise.all(promises)
   .then(function(values){
-    let planned = values[0].map(monthlySum);
-    let plannedTotal = planned.reduce((a,b)=>{return (a+b)})
+    let plannedTotal = values[0].reduce((acc,b)=>acc + b.expense_daily_sum*daysInMonth(),0)
+    let planned = values[0].map(item=>{
+      return ({[item.expense_type]:item.expense_daily_sum*daysInMonth()})
+    });
+    planned = planned.reduce((acc,b)=> Object.assign(acc,b),{})
     let cashStart = values[1];
     let cashEnd = values[2];
     let cashDiff = cashEnd - cashStart;
     let incomingCash = values[3];
-    let cashRefund = values[4];
-    let everyday = values [5];
-    let totalSpent = cashDiff + everyday - incomingCash - cashRefund
+    let refund = values[4];
+    let everyday = Math.round((-1)*values [5]);
+    let totalSpent = cashDiff + everyday + incomingCash - refund
     let daily = {};
     daily.spent = Math.round(totalSpent/getToday())
-    daily.total.planned = Math.round(planned.everyday/daysInMonth());
-    daily.total.left = Math.round((planned.everyday - totalSpent)/(daysInMonth()-getToday()+1))
-    monthlyTotalSpent  = plannedTotal + totalSpent - planned.everyday;
+    daily.planned = Math.round(planned.everyday/daysInMonth());
+    daily.left = Math.round((planned.everyday - totalSpent)/(daysInMonth()-getToday()+1))
+    let monthlyTotalSpent  = plannedTotal + totalSpent - planned.everyday;
     let response ={
       "planned":planned,
       "plannedTotal":plannedTotal,
-      "cashStart":cashStart,
+      "Spent Cash":cashDiff + incomingCash ,
+      "refund":refund,
+      "everyday":everyday,
+      "total Spent": everyday + plannedTotal - planned.everyday + cashDiff + incomingCash -refund,
+      "daily":{
+        "spent":daily.spent,
+        "planned":daily.planned,
+        "left":daily.left
+      }
     }
     return response
   })
 }
 
- this.getToday = function (){
-   return function (){
-     let now = new Date()
-     let a = now.getMonth() +1
-     let b = now.getFullYear()
-     return (this.month == (now.getMonth() + 1) && this.year == now.getFullYear()) ? now.getDate() : this.daysInMonth()
-   }
- }
-
- this.monthlySum = function (){
- return  function(sum){
-     return Math.round(sum*this.daysInMonth())
-   }
- }
- this.daysInMonth = function (){
-   return function(){
-    var feb = this.year % 4 == 0 ? 29 : 28
-    let daysInMonthMap ={
-      "01":31,
-      "02":feb,
-      "03":31,
-      "04":30,
-      "05":31,
-      "06":30,
-      "07":31,
-      "08":31,
-      "09":30,
-      "10":31,
-      "11":30,
-      "12":31
-    }
-    return daysInMonthMap[this.month]
-   }
- }
 }
 module.exports = {
   monthlyReportController
