@@ -26,27 +26,40 @@ function yearlyReportController (year){
       let sulaStart = results[3]
       let sulaEnd = results[4]
 
-      let report = {}
+      let other = {}
       types.forEach(type=>{
-        report[type["expense_type"]]={planned:0,spent:0}
+        other[type["expense_type"]]={planned:0,spent:0}
       })
       planned.forEach(item=>{
-        if ((item["expense_type"] in report)===false){
-          report[item["expense_type"]]={planned:0,spent:0}
+        if ((item["expense_type"] in other)===false){
+          other[item["expense_type"]]={planned:0,spent:0}
         }
         var sum = Math.round(item["expense_daily_sum"]*daysInPeriod,0)
-        report[item["expense_type"]]["planned"] = sum
+        other[item["expense_type"]]["planned"] = sum
 
       })
       transactions.forEach(trans=>{
         if (trans.expense_type==="everyday" && trans.trans_sum >0){
           return
         }
-        let mark = (trans.bank_or_cash==="cashRefund" ? 1:-1)
-        report[trans["expense_type"]].spent +=trans["trans_sum"]*mark
-        report[trans["expense_type"]].spent = Math.round(report[trans["expense_type"]].spent,0 )
+        let mark = (trans.bank_or_cash==="refund" ? 1:-1)
+        other[trans["expense_type"]].spent +=trans["trans_sum"]*mark
+        other[trans["expense_type"]].spent = Math.round(other[trans["expense_type"]].spent,0 )
       })
-      report.everyday.spent += (sulaStart - sulaEnd)
+      let unfixedList = ["kytus","lapsed","majapidamine","puhkused","vaba"]
+      let unfixed = {}
+      let unfixedSummary = {planned:0,spent:0}
+      unfixedList.forEach(item=>{
+        unfixed[item] = other[item]
+        unfixedSummary.planned +=unfixed[item].planned;
+        unfixedSummary.spent += unfixed[item].spent;
+        delete other[item]
+      })
+      unfixedSummary.diff = unfixedSummary.planned - unfixedSummary.spent ;
+      let report = {};
+      report.unfixed = unfixed ;
+      report.unfixedSummary = unfixedSummary;
+      report.other = other ;
       return report
     })
   }

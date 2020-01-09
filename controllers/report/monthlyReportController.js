@@ -48,8 +48,8 @@ this.getMonthlyReport = function (){
       "plannedTotal":plannedTotal,
       "Spent Cash":cashDiff + incomingCash ,
       "refund":refund,
-      "everyday":everyday,
-      "total Spent": totalSpent,
+      "Spent everyday":everyday,
+      "Spent total": totalSpent,
       "daily":{
         "spent":daily.spent,
         "planned":daily.planned,
