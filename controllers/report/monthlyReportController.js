@@ -32,7 +32,7 @@ this.getMonthlyReport = function (){
     planned = planned.reduce((acc,b)=> Object.assign(acc,b),{})
     let cashStart = values[1];
     let cashEnd = values[2];
-    let cashDiff = cashEnd - cashStart;
+    let cashDiff = cashStart - cashEnd;
     let incomingCash = values[3];
     let refund = values[4];
     let everyday = Math.round((-1)*values [5]);
@@ -46,7 +46,7 @@ this.getMonthlyReport = function (){
     let response ={
       "planned":planned,
       "plannedTotal":plannedTotal,
-      "Spent Cash":cashDiff + incomingCash ,
+      "Spent Cash": incomingCash + cashDiff ,
       "refund":refund,
       "Spent everyday":everyday,
       "Spent total": totalSpent,
