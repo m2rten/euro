@@ -20,8 +20,8 @@ this.getMonthlyReport = function (){
   promises.push(this.mrp.getPlanned());
   promises.push(this.mrp.getCardValue("start","sula"));
   promises.push(this.mrp.getCardValue("end","sula"));
-  promises.push(this.mrp.getCashRefundsSum("cash"));
-  promises.push(this.mrp.getCashRefundsSum("cashRefund"));
+  promises.push(this.mrp.getCashRefundsSum("incomingCash"));
+  promises.push(this.mrp.getCashRefundsSum("refund"));
   promises.push(this.mrp.getBankPeriodSum("everyday","bank"));
   return Promise.all(promises)
   .then(function(values){
