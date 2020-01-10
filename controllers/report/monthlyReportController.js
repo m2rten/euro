@@ -30,13 +30,14 @@ this.getMonthlyReport = function (){
       return ({[item.expense_type]:Math.round(item.expense_daily_sum*daysInMonth())})
     });
     planned = planned.reduce((acc,b)=> Object.assign(acc,b),{})
-    let cashStart = values[1];
-    let cashEnd = values[2];
-    let cashDiff = cashStart - cashEnd;
-    let incomingCash = values[3];
+    let cash = {};
+    let cash.start = values[1];
+    let cash.end = values[2];
+    let cash.diff = cash.start - cash.end;
+    let cash.incoming = values[3];
     let refund = values[4];
     let everyday = Math.round((-1)*values [5]);
-    let everydaySpent = cashDiff + everyday + incomingCash - refund
+    let everydaySpent = cash.diff + everyday + cash.incoming - refund
     let daily = {};
     daily.spent = Math.round(everydaySpent/getToday())
     daily.planned = Math.round(planned.everyday/daysInMonth());
@@ -46,10 +47,10 @@ this.getMonthlyReport = function (){
     let response ={
       "planned":planned,
       "plannedTotal":plannedTotal,
-      "Spent Cash": incomingCash + cashDiff ,
       "refund":refund,
       "Spent everyday":everyday,
       "Spent total": totalSpent,
+      "cash breakdown": cash,
       "daily":{
         "spent":daily.spent,
         "planned":daily.planned,
