@@ -42,6 +42,7 @@ this.getMonthlyReport = function (){
     daily.spent = Math.round(everydaySpent/getToday())
     daily.planned = Math.round(planned.everyday/daysInMonth());
     daily.left = Math.round((planned.everyday - everydaySpent)/(daysInMonth()-getToday()+1))
+    daily.bilanss = Math.round((planned.everyday)*getToday() - everydaySpent);
     let totalSpent = everydaySpent + plannedTotal - planned.everyday;
     let outcome = plannedTotal - totalSpent;
     let response ={
