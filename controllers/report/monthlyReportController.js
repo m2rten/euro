@@ -31,10 +31,10 @@ this.getMonthlyReport = function (){
     });
     planned = planned.reduce((acc,b)=> Object.assign(acc,b),{})
     let cash = {};
-    let cash.start = values[1];
-    let cash.end = values[2];
-    let cash.diff = cash.start - cash.end;
-    let cash.incoming = values[3];
+    cash.start = values[1];
+    cash.end = values[2];
+    cash.diff = cash.start - cash.end;
+    cash.incoming = values[3];
     let refund = values[4];
     let everyday = Math.round((-1)*values [5]);
     let everydaySpent = cash.diff + everyday + cash.incoming - refund
