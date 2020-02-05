@@ -2,7 +2,7 @@
     let now = new Date()
     let a = now.getMonth() +1
     let b = now.getFullYear()
-    return (this.month == (now.getMonth() + 1) && this.year == now.getFullYear()) ? now.getDate() : this.daysInMonth()
+    return (this.month == (now.getMonth() + 1) && this.year == now.getFullYear()) ? now.getDate() : daysInMonth.apply(this)
   }
 
   function daysInMonth (){

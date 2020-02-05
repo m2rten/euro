@@ -46,7 +46,9 @@ function yearlyReportController (year){
         other[trans["expense_type"]].spent +=trans["trans_sum"]*mark
         other[trans["expense_type"]].spent = Math.round(other[trans["expense_type"]].spent,0 )
       })
-      let unfixedList = ["kytus","lapsed","majapidamine","puhkused","vaba"]
+      let unfixedList = ["lapsed","majapidamine","puhkused","vaba"]
+      let regularList = ["kytus","koristamine","ulvi","mobiil","vesi","prygi","vanaema"]
+      let notRegularList = ["yearly","elekter","events"]
       let unfixed = {}
       let unfixedSummary = {planned:0,spent:0}
       unfixedList.forEach(item=>{
@@ -56,13 +58,29 @@ function yearlyReportController (year){
         delete other[item]
       })
       unfixedSummary.diff = unfixedSummary.planned - unfixedSummary.spent ;
-      let report = {};
+      let report = {}
       report.unfixed = unfixed ;
       report.unfixedSummary = unfixedSummary;
+      [report.regular, report.regularSummary, other] =addItemList(regularList, other);
       report.other = other ;
       return report
     })
   }
+}
+
+var addItemList = function (itemList, other){
+  let unfixed = {}
+  let summary = {planned:0,spent:0}
+  itemList.forEach(item=>{
+    if (item in other){
+    unfixed[item] = other[item]
+     summary.planned +=unfixed[item].planned;
+     summary.spent += unfixed[item].spent;
+     delete other[item]
+    }
+  })
+  summary.diff = summary.planned - summary.spent ;
+  return [unfixed, summary, other]
 }
 var getEndMonth = function (year){
   let now = new Date()
