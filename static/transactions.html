@@ -24,15 +24,31 @@
    <input type="submit" value="submit">
   </form>
 </p>
-
-<p id="demo"></p>
-
+<form id="myForm" action="/transactionsList"  method="get">
+  <label>month</label>
+    <input type="text" name="month"/></br></br>
+      <label>year</label>
+    <input type="text" name="year" ></br></br>
+</form>
+<button onclick="myFunction()">Try it</button>
+<p id="transactions"></p>
 <script>
 console.log(window.location);
-var obj, dbParam, xmlhttp, myObj, x, txt = "";
-dbParam = JSON.stringify(obj);
-xmlhttp = new XMLHttpRequest();
+var  xmlhttp, myObj,  txt = "";
+  xmlhttp = new XMLHttpRequest();
+function myFunction() {
+  txt = ""
+  var month = document.getElementById("myForm").elements[0].value;
+  var year = document.getElementById("myForm").elements[1].value;
+xmlhttp.open("GET", "/transactionsList/"+year+"/"+month, true);
+xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xmlhttp.send();
+}
+xmlhttp.open("GET", "/transactionsList/", true);
+xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xmlhttp.send();
 xmlhttp.onreadystatechange = function() {
+  console.log("ready states")
   if (this.readyState == 4 && this.status == 200) {
     myObj = JSON.parse(this.responseText);
     txt += "<table border='1'>"
@@ -46,10 +62,8 @@ xmlhttp.onreadystatechange = function() {
       txt += "<td>" + myObj[x].bank_or_cash + "</td></tr>" ;
     }
     txt += "</table>"
-    document.getElementById("demo").innerHTML = txt;
+    document.getElementById("transactions").innerHTML = txt;
   }
 };
-xmlhttp.open("GET", "/transactionsList", true);
-xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-xmlhttp.send();
+
 </script>
